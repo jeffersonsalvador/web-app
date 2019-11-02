@@ -1,0 +1,16 @@
+{
+    "name": "jcosta/web-app",
+    "authors": [
+        {
+            "name": "Jefferson Costa",
+            "email": "jeffersonsalvador@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        }
+    },
+    "require": {
+    }
+}
