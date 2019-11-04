@@ -26,9 +26,26 @@ class UserController
         }
     }
 
-    public function update()
+    public function update($request)
     {
+        $attributes = $request->getParsedBody();
+        $model = new User();
+        $user = $model->findById($attributes['id']);
+        $user->iban = $attributes['paymentId'];
+        $user->save();
+    }
 
+    public function destroy($request)
+    {
+        $attributes = $request->getParsedBody();
+        $user = (new User())->findById($attributes['id']);
+        return $user->destroy();
+    }
+
+    public function success($iban)
+    {
+        $iban = $iban;
+        require __DIR__."/../Views/Iban.php";
     }
 
     public function error()

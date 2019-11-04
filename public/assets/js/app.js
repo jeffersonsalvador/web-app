@@ -16,6 +16,7 @@ $(document).ready(function() {
         e.preventDefault()
         if (validateForm()) {
             $('.errors').removeClass('show')
+            $(this).attr("disabled", true)
             save()
         } else {
             $('.errors').addClass('show')
@@ -56,18 +57,27 @@ function validateForm() {
 }
 
 function getPaymentId(user) {
-    $.ajax({
-        type: "POST",
-        url: "https://37f32cl571.execute-api.eu-central-1.amazonaws.com/default/wunderfleet-recruiting-backend-dev-save-payment-data",
-        date: {
-            "customerId": user.id,
-            "iban": user.iban,
-            "owner": user.owner
-        },
-        contentType: "application/json"
-    }).done(function(result){
-        console.log(result)
-    });
+    // CORS problem
+    const proxy = "https://cors-anywhere.herokuapp.com/"
+    const url = "https://37f32cl571.execute-api.eu-central-1.amazonaws.com/default/wunderfleet-recruiting-backend-dev-save-payment-data"; // site that doesn’t send Access-Control-*
+    let userObj =   JSON.stringify({
+        customerId: user.id,
+        iban: user.iban,
+        owner: user.owner
+    })
+    axios.post(proxy + url, userObj)
+        .then(function (response) {
+            let paymentId = response.data.paymentDataId
+            update(user.id, paymentId)
+            localStorage.clear()
+            window.location.href = `/success/${paymentId}`
+        })
+        .catch(function (error) {
+            $('.errors').html(error);
+            $('.errors').addClass('show')
+            destroy(user.id)
+        });
+    //update(222, 'JEFFERSON!(*@1982')
 }
 
 function save(form) {
@@ -84,5 +94,22 @@ function save(form) {
             $('.errors').addClass('show')
         }
     });
-    // get PaymentId
+}
+
+function update(id, paymentId) {
+    $.ajax({
+        type: "POST",
+        url: "/user/update",
+        data: { id: id, paymentId: paymentId }
+    }).done(function(response) {
+        return true
+    });
+}
+
+function destroy(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/user',
+        data: { id: id }
+    })
 }

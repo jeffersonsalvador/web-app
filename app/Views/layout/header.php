@@ -5,7 +5,8 @@
     <base href="<?= getenv('APP_URL'); ?>">
 
     <title>Wunder Fleet</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" async>
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
 </head>
 
 <body>
