@@ -81,7 +81,7 @@ function getPaymentId(user) {
 }
 
 function save(form) {
-    // save
+    //TODO: axios implements
     $.ajax({
         type: "POST",
         url: "/user",
@@ -97,6 +97,7 @@ function save(form) {
 }
 
 function update(id, paymentId) {
+    //TODO: axios implements - put
     $.ajax({
         type: "POST",
         url: "/user/update",
@@ -107,6 +108,7 @@ function update(id, paymentId) {
 }
 
 function destroy(id) {
+    //TODO: axios implements
     $.ajax({
         type: 'DELETE',
         url: '/user',
